@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/socket.io-client/dist/socket.io.js"></script>
+  <script src="config.js"></script>
+  <style>
+    label {
+      width: 100px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>WebSocket Connection Test Page</h1>
+
+  <div>
+    <button id="connect">Connect</button>
+  </div>
+  <div>
+    <button id="disconnect">Disconnect</button>
+  </div>
+  <div id="login-box">
+    <div>
+      <label>Username:</label>
+      <input type="text" id="username" value="" placeholder="username">
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" id="pwd" value="" placeholder="password">
+    </div>
+    <div>
+        <label>Token:</label>
+        <input type="text" id="token" value="" placeholder="token">
+      </div>
+    <div>
+      <button id="login">Login</button>
+    </div>
+  </div>
+
+  <script>
+
+    var socket;
+
+    function debug(msg) {
+      $('body').append('<p>[' + new Date() + '] - ' + msg + '</p>');
+    }
+
+    function debugError(msg) {
+      $('body').append('<p style="color: red">[' + new Date() + '] - ' + msg + '</p>');
+    }
+
+    $(function () {
+
+      debug('ready');
+
+      $('#username').val(configApp.username);
+      $('#pwd').val(configApp.password);
+      $('#token').val(configApp.token);
+
+      $('#login-box').hide();
+      $('#disconnect').hide();
+
+      $('#disconnect').click(function () {
+        $('#login-box').hide();
+        $('#disconnect').hide();
+        $('#connect').show();
+        socket.disconnect();
+      });
+
+      $('#login').click(function () {
+        var user = $('#username').val();
+        var pwd = $('#pwd').val();
+        var token = $('#token').val();
+        socket.emit('login', {
+          accessKeyId: user,
+          token: token
+        });
+      });
+
+      $('#connect').click(function () {
+
+        socket = io.connect('wss://' + window.location.hostname, {
+          transports: ['websocket'],
+          'force new connection': true
+        });
+
+        socket.on('connect', function () {
+          debug('ws connected');
+          $('#login-box').show();
+          $('#disconnect').show();
+          $('#connect').hide();
+        });
+
+        socket.on('disconnect', function () {
+          debug('ws disconnected');
+          $('#login-box').hide();
+          $('#disconnect').hide();
+          $('#connect').show();
+        });
+
+        socket.on('authe_ok', function () {
+          debug('login success (authe_ok)');
+          $('#login-box').hide();
+          subscribeEvents();
+        });
+
+        socket.on('connect_error', function (err) {
+          debugError(err);
+        });
+
+        socket.on('error', function (err) {
+          debugError(err);
+        });
+
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

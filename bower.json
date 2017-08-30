@@ -1,0 +1,22 @@
+{
+  "name": "cti",
+  "homepage": "https://github.com/alepolidori/cti",
+  "authors": [
+    "Alessandro Polidori <alessandro.polidori@nethesis.it>"
+  ],
+  "description": "",
+  "main": "ws-connection.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "socket.io-client": "^2.0.3"
+  }
+}
