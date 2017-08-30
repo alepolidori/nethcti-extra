@@ -105,7 +105,6 @@
         socket.on('authe_ok', function () {
           debug('login success (authe_ok)');
           $('#login-box').hide();
-          subscribeEvents();
         });
 
         socket.on('connect_error', function (err) {
