@@ -4,7 +4,6 @@
 <head>
   <script src="../bower_components/jquery/dist/jquery.min.js"></script>
   <script src="../bower_components/jsSHA/src/sha.js"></script>
-  <script src="../config.js"></script>
   <style>
     label {
       width: 100px;
@@ -56,9 +55,6 @@
     $(function () {
 
       debug('ready');
-
-      $('#username').val(configApp.username);
-      $('#pwd').val(configApp.password);
 
       $('#logout').click(function () {
         var username = $('#username').val();
