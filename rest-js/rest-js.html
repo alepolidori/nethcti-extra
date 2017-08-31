@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="../bower_components/jsSHA/src/sha.js"></script>
+  <script src="config.js"></script>
+  <style>
+    label {
+      width: 100px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Rest API Test Page</h1>
+
+  <div id="login-box">
+    <div>
+      <label>Username:</label>
+      <input type="text" id="username" value="" placeholder="username">
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" id="pwd" value="" placeholder="password">
+    </div>
+    <div>
+      <button id="login">Login</button>
+    </div>
+  </div>
+  <div id="logout-box">
+    <div>
+      <button id="logout">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    var socket, token;
+    var BASE_API_URL = 'https://' + window.location.hostname + '/webrest'
+
+    function debug(msg) {
+      $('body').append('<p>[' + new Date() + '] - ' + msg + '</p>');
+    }
+
+    function debugError(msg) {
+      $('body').append('<p style="color: red">[' + new Date() + '] - ' + msg + '</p>');
+    }
+
+    function setAuthenticationHeader(xhr) {
+      var username = $('#username').val();
+      xhr.setRequestHeader('Authorization', username + ':' + token);
+    }
+
+    $(function () {
+
+      debug('ready');
+
+      $('#username').val(configApp.username);
+      $('#pwd').val(configApp.password);
+
+      $('#logout').click(function () {
+        var username = $('#username').val();
+        $.ajax({
+          method: 'POST',
+          url: BASE_API_URL + '/authentication/logout',
+          beforeSend: setAuthenticationHeader
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          debugError('logout failed');
+        }).done(function (jqXHR, textStatus, errorThrown) {
+          debug('logged out');
+          $('#login-box').show();
+          $('#logout-box').hide();
+        });
+      });
+
+      $('#login').click(function () {
+        var username = $('#username').val();
+        var password = $('#pwd').val();
+        var data = {
+          username: username,
+          password: password
+        };
+        $.ajax({
+          method: 'POST',
+          url: BASE_API_URL + '/authentication/login',
+          data: data
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          if (jqXHR.getResponseHeader('www-authenticate').indexOf('Digest') === 0) {
+            var nonce = jqXHR.getResponseHeader('www-authenticate').split(' ')[1];
+            var shaObj = new jsSHA('SHA-1', 'TEXT');
+            shaObj.setHMACKey(password, 'TEXT');
+            shaObj.update(username + ':' + password + ':' + nonce);
+            token = shaObj.getHMAC('HEX');
+            debug('logged in - token: "' + token + '"');
+            $('#login-box').hide();
+            $('#logout-box').show();
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>

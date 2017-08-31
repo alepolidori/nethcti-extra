@@ -1,0 +1,4 @@
+var configApp = {
+    username: '',
+    password: ''
+};
