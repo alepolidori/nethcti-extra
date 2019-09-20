@@ -56,13 +56,13 @@ echo ""
 
 # yum
 echo "# Yum"
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "nethcti3" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "nethcti-server3" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "janus-gateway" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "nethserver-janus" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "nethserver-nethvoice14" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "nethserver-freepbx" | tail -1
-/usr/bin/ls -rt /var/log/messages* | xargs grep "Installed:\|Updated:\|Erased:" | grep "asterisk13-core" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "nethcti3" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "nethcti-server3" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "janus-gateway" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "nethserver-janus" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "nethserver-nethvoice14" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "nethserver-freepbx" | tail -1
+/usr/bin/ls -rt /var/log/messages* | xargs grep -h "Installed:\|Updated:\|Erased:" | grep "asterisk13-core" | tail -1
 echo ""
 
 # boot time
@@ -70,26 +70,26 @@ echo "# Boot time"
 ASTPID=`ps aux | grep "[/]usr/sbin/asterisk -f -C /etc/asterisk/asterisk.conf" | awk \'{print \$2}\'`
 echo -e "Last boot Asterisk:\t" `ls -ld /proc/$ASTPID | awk \'{print \$6 \" \" \$7 \" \" \$8}\'`
 echo -e "Asterisk uptime:\t" `/usr/sbin/asterisk -rx "core show uptime"`
-echo -e "Last boot NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep "STARTED" | tail -1 | cut -d ":" -f2-4`
-echo -e "Last reload NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep "RELOAD all components" | tail -1 | cut -d ":" -f2-4`
+echo -e "Last boot NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "STARTED" | tail -1 | cut -d ":" -f2-4`
+echo -e "Last reload NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "RELOAD all components" | tail -1 | cut -d ":" -f2-4`
 echo ""
 
 # signal-event
 echo "# last signal-event"
 echo "nethcti3-update:"
-ls -rt /var/log/messages* | xargs grep "Event: nethcti3-update" | tail -2
+ls -rt /var/log/messages* | xargs grep -h "Event: nethcti3-update" | tail -2
 echo ""
 echo "nethcti-server3-update:"
-ls -rt /var/log/messages* | xargs grep "Event: nethcti-server3-update" | tail -2
+ls -rt /var/log/messages* | xargs grep -h "Event: nethcti-server3-update" | tail -2
 echo ""
 echo "nethserver-janus-update:"
-ls -rt /var/log/messages* | xargs grep "Event: nethserver-janus-update" | tail -2
+ls -rt /var/log/messages* | xargs grep -h "Event: nethserver-janus-update" | tail -2
 echo ""
 echo "nethserver-nethvoice14-update:"
-ls -rt /var/log/messages* | xargs grep "Event: nethserver-nethvoice14-update" | tail -2
+ls -rt /var/log/messages* | xargs grep -h "Event: nethserver-nethvoice14-update" | tail -2
 echo ""
 echo "nethserver-freepbx-update:"
-ls -rt /var/log/messages* | xargs grep "Event: nethserver-freepbx-update" | tail -2
+ls -rt /var/log/messages* | xargs grep -h "Event: nethserver-freepbx-update" | tail -2
 echo ""
 
 # services
@@ -116,10 +116,10 @@ echo "# NethCTI"
 echo "Configured users:" `grep \'"name": \' /etc/nethcti/users.json | wc -l`
 echo ""
 echo -e "NethCTI last BOOT output:"
-ls -rt /var/log/asterisk/nethcti.log* | xargs grep -A15 "STARTED" | tail -16
+ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h -A15 "STARTED" | tail -16
 echo ""
 echo -e "NethCTI last RELOAD output:"
-ls -rt /var/log/asterisk/nethcti.log* | xargs grep -A20 "RELOAD all components" /var/log/asterisk/nethcti.log | tail -21
+ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h -A20 "RELOAD all components" /var/log/asterisk/nethcti.log | tail -21
 echo ""
 echo "Num UncaughtException: " `grep "UncaughtException" /var/log/asterisk/nethcti.log | wc -l`
 echo ""
