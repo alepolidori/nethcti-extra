@@ -22,7 +22,7 @@ So an alert message and a restart of the service will happen if the `nethcti-ser
 
 4. add cron job replacing user and password fields
 
-`*/5 * * * * /usr/bin/scl enable rh-nodejs10 -- node /usr/lib/node/check-cti-health/check-cti-health.js 127.0.0.1 <USER> <PASSWORD> &> /dev/null`
+`*/5 * * * * root /usr/bin/scl enable rh-nodejs10 -- node /usr/lib/node/check-cti-health/check-cti-health.js 127.0.0.1 <USER> <PASSWORD> &> /dev/null`
 
 5. make sure that `/etc/httpd/conf.d/nethcti-server.conf` has `retry=0` at the end of the line:
 `ProxyPass /webrest http://127.0.0.1:8179`
