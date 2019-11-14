@@ -70,8 +70,8 @@ echo "# Boot time"
 ASTPID=`ps aux | grep "[/]usr/sbin/asterisk -f -C /etc/asterisk/asterisk.conf" | awk \'{print \$2}\'`
 echo -e "Last boot Asterisk:\t" `ls -ld /proc/$ASTPID | awk \'{print \$6 \" \" \$7 \" \" \$8}\'`
 echo -e "Asterisk uptime:\t" `/usr/sbin/asterisk -rx "core show uptime"`
-echo -e "Last boot NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "STARTED" | tail -1 | cut -d ":" -f2-4`
-echo -e "Last reload NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "RELOAD all components" | tail -1 | cut -d ":" -f2-4`
+echo -e "Last boot NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "STARTED" | tail -1 | cut -d " " -f1`
+echo -e "Last reload NethCTI:\t" `ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h "RELOAD all components" | tail -1 | cut -d " " -f1`
 echo ""
 
 # signal-event
