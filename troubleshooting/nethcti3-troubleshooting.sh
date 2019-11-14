@@ -131,6 +131,11 @@ config show nethcti-server
 echo ""
 echo "REST API profiling/all"
 curl -k https://localhost/webrest/profiling/all | python -m json.tool
+
+# database
+echo "# Database"
+echo "cdr count:" `/usr/bin/mysql -e "SELECT count(*) FROM asteriskcdrdb.cdr"`
+echo "queue_log count:" `/usr/bin/mysql -e "SELECT count(*) FROM asteriskcdrdb.queue_log"`
 ' > $TEMPFILE
 
 if [ "$MODE" == "sos" ]; then
