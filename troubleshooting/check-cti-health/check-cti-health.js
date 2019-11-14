@@ -6,7 +6,9 @@ const io = require('socket.io-client');
 const { spawnSync } = require('child_process');
 const shell = require('shelljs');
 
-const TIMEOUT_REQ = 10000;
+const TIMEOUT_REQ = 5000; // timeout of each request
+const INTERVAL_ATTEMPTS = 10000; // interval for connection attemps
+const MATTERMOST_WEBHOOK = 'URL' // customize mattermost webhook url
 const server = process.argv[2];
 const username = process.argv[3];
 const password = process.argv[4];
@@ -14,7 +16,6 @@ const data = JSON.stringify({
   username: username,
   password: password
 });
-const INTERVAL_ATTEMPTS = 60000;
 
 let token, socket, timeoutWsLogin, options, req;
 let countAttempts = 0;
@@ -179,7 +180,7 @@ let mattermostAlert = (msg) => {
     '-X', 'POST',
     '-H', 'Content-Type: application/json',
     '-d', '{"text": "```\n' + text + '\n```"}',
-    '<SERVER_MATTERMOST>'
+    MATTERMOST_WEBHOOK
   ]);
 };
 

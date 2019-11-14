@@ -1,12 +1,12 @@
 Check the health status of the nethcti-server every 5 minutes.
-It does three connection attempts and if all fail a mattermost alert message is sent and the `nethcti-server` service is restarted. Each connection attempt consists of the following actions:
+It does 3 connection attempts and if all fail a mattermost alert message is sent and the `nethcti-server` service is restarted. Each connection attempt consists of the following actions:
 
 - HTTP POST authentication/login
 - WebSocket connection and login
 - HTTP POST authentication/logout
 
-Each request has a timeout of 10 seconds. Connection attempts are made every minute.
-So an alert message and a restart of the service will happen if the `nethcti-server` doesn't work correctly for 3 minutes interval time.
+Each request has a timeout of 5 seconds. Connection attempts are made every 10 seconds.
+So an alert message will happen if the `nethcti-server` doesn't work correctly for 30 seconds interval time.
 
 ## How to use
 
