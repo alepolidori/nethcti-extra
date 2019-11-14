@@ -20,7 +20,7 @@ So an alert message will happen if the `nethcti-server` doesn't work correctly f
 
 `cd /usr/lib/node/check-cti-health && scl enable rh-nodejs10 'npm install'`
 
-4. add cron job replacing user and password fields
+4. add cron job replacing <USER> and <PASSWORD> fields (e.g. into `/etc/cron.d/check-cti-health`)
 
 `*/5 * * * * root /usr/bin/scl enable rh-nodejs10 -- node /usr/lib/node/check-cti-health/check-cti-health.js 127.0.0.1 <USER> <PASSWORD> &> /dev/null`
 
