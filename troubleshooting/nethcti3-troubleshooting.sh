@@ -128,6 +128,9 @@ fgrep -A2 "error: [" /var/log/asterisk/nethcti.log | tail -30
 echo ""
 echo "config show"
 config show nethcti-server
+echo ""
+echo "REST API profiling/all"
+curl -k https://localhost/webrest/profiling/all | python -m json.tool
 ' > $TEMPFILE
 
 if [ "$MODE" == "sos" ]; then
