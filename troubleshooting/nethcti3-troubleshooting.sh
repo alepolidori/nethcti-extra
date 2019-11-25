@@ -52,6 +52,7 @@ echo "RPMs"
 /usr/bin/rpm -q janus-gateway
 /usr/bin/rpm -q nethserver-janus
 /usr/bin/rpm -q asterisk13-core
+/usr/bin/rpm -q libnice
 echo ""
 
 # yum
