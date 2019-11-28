@@ -115,6 +115,8 @@ echo ""
 # nethcti
 echo "# NethCTI"
 echo "Configured users:" `grep \'"name": \' /etc/nethcti/users.json | wc -l`
+echo "Queues:" `grep dynmembers /etc/nethcti/ast_objects.json | wc -l`
+echo "Trunks:" `grep maxchans /etc/nethcti/ast_objects.json | wc -l`
 echo ""
 echo -e "NethCTI last BOOT output:"
 ls -rt /var/log/asterisk/nethcti.log* | xargs grep -h -A15 "STARTED" | tail -16
@@ -132,6 +134,7 @@ config show nethcti-server
 echo ""
 echo "REST API profiling/all"
 curl -k https://localhost/webrest/profiling/all | python -m json.tool
+echo ""
 
 # database
 echo "# Database"
