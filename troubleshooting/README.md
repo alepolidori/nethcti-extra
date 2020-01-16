@@ -1,6 +1,6 @@
 ### [nethcti3-troubleshooting.sh](https://raw.githubusercontent.com/alepolidori/nethcti-extra/master/troubleshooting/nethcti3-troubleshooting.sh)
 
-Print some server information related to NethCTI application to simplify the troubleshooting.
+Print some server information related to [NethCTI](https://github.com/nethesis/nethcti-server) application to simplify the troubleshooting.
 
 #### Help message
 
