@@ -2,6 +2,10 @@
 
 Print some server information related to [NethCTI](https://github.com/nethesis/nethcti-server) application to simplify the troubleshooting.
 
+#### Download
+
+Download from [here](https://raw.githubusercontent.com/alepolidori/nethcti-extra/master/troubleshooting/nethcti3-troubleshooting.sh)
+
 #### Help message
 
 You can see how to use it by executing the script without parameters.
