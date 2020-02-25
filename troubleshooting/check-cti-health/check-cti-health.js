@@ -7,6 +7,7 @@ const { spawnSync } = require('child_process');
 const shell = require('shelljs');
 
 const TIMEOUT_REQ = 5000; // timeout of each request
+const MAX_ATTEMPTS = 3; // max attempts
 const INTERVAL_ATTEMPTS = 10000; // interval for connection attemps
 const MATTERMOST_WEBHOOK = 'URL' // customize mattermost webhook url
 const server = process.argv[2];
@@ -84,10 +85,15 @@ let restLogout = () => {
 
 let failed = id => {
   clear();
-  if (countAttempts === 2) {
+  if (countAttempts === MAX_ATTEMPTS) {
     mattermostAlert(id + ': failed')
+    restartNethctiServer();
     process.exit(1);
   }
+};
+
+let restartNethctiServer = () => {
+  spawnSync('/usr/bin/systemctl', [ 'restart', 'nethcti-server' ]);
 };
 
 let success = () => {
@@ -150,7 +156,9 @@ let start = () => {
 
 let mattermostAlert = (msg) => {
   let child = spawnSync('/usr/bin/hostname', [ '-f' ]);
-  let text = `# Hostname: ${child.stdout.toString()}`;
+  let text = `# NethCTI RESTARTED`;
+  text += `\n# Date: ${new Date()}`;
+  text += `\n# Hostname: ${child.stdout.toString()}`;
 
   child = spawnSync('/sbin/e-smith/config', [ 'getprop','subscription','SystemId' ]);
   text += `# SystemId: ${child.stdout.toString()}`;
